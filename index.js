@@ -26,15 +26,21 @@ app.get('/todos', (req, res) => {
 })
 
 app.post('/todos', (req, res) => {
-    const todo = req.body
 
-    database.push({
-        id: todo.id,
-        title: todo.title,
-        is_complete: false
-    })
+    const { id, title } = req.body
 
-    res.status(200).json(database)
+    if (!id || !title) {
+        res.status(400).json({ message: 'value is not defined' })
+    } else {
+        database.push({
+            id,
+            title,
+            is_complete: false
+        })
+
+        res.status(200).json(database)
+    }
+
 })
 
 const PORT = process.env.PORT || 5000
